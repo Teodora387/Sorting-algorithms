@@ -1,0 +1,70 @@
+import random as r
+#This is the heap
+heap = list()
+
+#as in the case of vector we create an array with 1000 entries
+for i in range(1000):
+    heap.append(r.randint(-10000, 10000))
+
+length = len(heap)
+
+def leftChild(position): #return the position leftChild
+    return position*2
+
+def rightChild(position):
+    return (position*2)+1 #return the position of rightChild
+
+def heapify(position):
+    maxim = None
+    l = leftChild(position)
+    r = rightChild(position)
+    if l <= length and heap[l] > heap[position]:
+        maxim = l
+    else:
+        maxim = position
+    if r <= length and heap[r] > heap[maxim]:
+        maxim = r
+    if maxim != position:
+        k = heap[position]
+        heap[position] = heap[maxim]
+        heap[maxim] = k
+        heapify(maxim)
+
+#this method is turning a regular array into a heap
+#it starts from the half of the vector because there would usually be the last parent
+#it goes until -1, because it this way he will also reach zero, which is the last parent and stops there
+def buildHeap():
+    for i in range((len(heap)//2)-1, -1, -1):
+        heapify(i)
+
+#findMaxAndSwap is O(1) because we already know that the first element is the biggest
+def findMaxAndSwap(l):
+    k = heap[0]
+    heap[0] = heap[l]
+    heap[l] = k
+
+def heapSort():
+    global length
+    length -= 1 #length is bigger with one than the last position, so we reduce it with 1
+    for i in range(len(heap)):
+        findMaxAndSwap(length)
+        length -= 1
+
+        heapify(0)
+
+#basic method to test if an array is sorted
+def test(v):
+    for i in range(len(v)-1):
+        if v[i] > v[i+1]:
+            return False
+    return True
+
+
+buildHeap() #building the heap
+print(heap)
+heapSort() #sorting the heap
+
+if test(heap): #testing if the heap was sorted
+    print(heap)
+else:
+    print("Error")
