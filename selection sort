@@ -1,0 +1,32 @@
+import random as r
+#this function checks for the max value from the first element to the position given, then swap
+#the biggest element with the last one
+def findMaxAndSwap(position, v):
+    max = v[0]
+    j = 0
+    for i in range(0, position):
+       if max < v[i]:
+           j = i
+           max = v[i]
+    v[j] = v[position-1]
+    v[position-1] = max
+#A simple test that check if the list is sorted
+def test(v):
+    for i in range(len(v)-1):
+        if v[i] > v[i+1]:
+            return False
+    return True
+v = list()
+#giving the list 1000 random values from -10000 to 10000
+for i in range(1000):
+    v.append(r.randint(-10000, 10000))
+position = len(v)
+while position > 0:
+    findMaxAndSwap(position, v)
+    #position is always decreasing because after each swap the last element is gonna be the bigger
+    position -= 1
+#testing if the list is sorted
+if test(v):
+    print(v)
+else:
+    print("Error")
